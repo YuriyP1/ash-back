@@ -32,7 +32,7 @@ app.get('/', (req, res)=>{
     res.sendFile('./build/index.html', {root: __dirname })
 })
 app.get('/ash', (req, res)=>{
-    res.sendFile(path.join (__dirname, '..', '..', 'frontend', 'ASH', 'dist'))
+    res.sendFile(path.join (__dirname, 'build', 'index.html'))
 })
 
 
