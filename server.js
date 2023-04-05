@@ -2,7 +2,7 @@ const express = require('express');
 const TelegramApi = require('node-telegram-bot-api');
 const token ='6077774598:AAEJJaRdxoFdvp_A_RIn7CrOeS9nIqj1Zmw'
 
-// const bot = new TelegramApi(token, {polling: true})
+const bot = new TelegramApi(token, {polling: true})
 
 
 
@@ -24,8 +24,8 @@ app.listen(PORT, (error)=>{
 
 app.get('/api/send-order', (req, res)=>{
     count = count + 1
-    console.log('send message')
-    // bot.sendMessage(YURA, `NEW ЗАМОВЛЕННЯ ${count}`)
+    // console.log('send message')
+    bot.sendMessage(YURA, `NEW ЗАМОВЛЕННЯ ${count}`)
 })
 
 
@@ -53,11 +53,11 @@ app.get('*', (_, res) => {
 
 
 
-// bot.on('message', msg=>{
-//     const text = msg.text;
-//     const id = msg.chat.id;
+bot.on('message', msg=>{
+    const text = msg.text;
+    const id = msg.chat.id;
 
-//     if(text === '/start'){
-//         bot.sendMessage(id, `Добро пожаловать в ASH`)
-//     }
-// })
+    if(text === '/start'){
+        bot.sendMessage(id, `Добро пожаловать в ASH`)
+    }
+})
