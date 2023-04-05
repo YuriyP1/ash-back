@@ -1,4 +1,5 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 const TelegramApi = require('node-telegram-bot-api');
 const token ='6077774598:AAEJJaRdxoFdvp_A_RIn7CrOeS9nIqj1Zmw'
 
@@ -13,8 +14,10 @@ const YURA = 1535962876
 
 
 const app = express();
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
-const PORT = 3001;
+const PORT = 3000;
 
 let count = 0
 
@@ -22,11 +25,52 @@ app.listen(PORT, (error)=>{
     error ? console.log(error) : console.log(`listening port ${PORT}`)
 })
 
-app.get('/api/send-order', (req, res)=>{
-    count = count + 1
-    // console.log('send message')
-    bot.sendMessage(YURA, `NEW ЗАМОВЛЕННЯ ${count}`)
-})
+// app.get('/api/send-order', (req, res)=>{
+//     count = count + 1
+//     // console.log('send message')
+//     bot.sendMessage(YURA, `NEW ЗАМОВЛЕННЯ ${count}`)
+// })
+
+// app.post('/api/send-order', (req, res) => {
+//   const data = req.body;
+//   console.log(data);
+//   res.send('POST запрос принят');
+// });
+
+app.post('/api/send-order', (req, res) => {
+  const {
+    name,
+    phone,
+    deliveryType,
+    address,
+    house,
+    entrance,
+    positions,
+    fullPrice,
+   } = req.body;
+
+  const titles = positions.map(item => item.title);
+
+  const result = positions.map(item => `      ${item.title} ${item.amount} шт`).join(',\n');
+
+  bot.sendMessage(YURA,
+    `
+    ЗАМОВЛЕННЯ!${count}\n
+    Ім'я: ${name}
+    Телефон: ${phone}
+    Тип доставки: ${deliveryType}
+    Адреса: ${address} \n
+    Позиції:
+${result}
+      _____________________
+      Сума до сплати: ${fullPrice} грн
+    
+    `
+    )
+
+
+  res.send('POST запрос принят');
+});
 
 
 
