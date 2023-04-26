@@ -1,10 +1,14 @@
 const express = require('express');
+const path = require('path');
+const userRouter = require('./routes/user.routes')
 const bodyParser = require('body-parser');
 const TelegramApi = require('node-telegram-bot-api');
 const token ='6077774598:AAEJJaRdxoFdvp_A_RIn7CrOeS9nIqj1Zmw'
 
 const bot = new TelegramApi(token, {polling: true})
-
+const app = express();
+//DB
+app.use('/api/db', userRouter)
 
 
 // FOUNDERS
@@ -12,8 +16,6 @@ const YURA = 1535962876
 
 
 
-
-const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
@@ -76,8 +78,8 @@ ${result}
 
 
 // app.use('/api', router);
-
-app.use(express.static(`${__dirname}/../../client/ASH/build`));
+app.use(express.static(path.join(__dirname, '/../../client/ASH/build')));
+// app.use(express.static(`${__dirname}/../../client/ASH/build`));
 
 app.get('*', (_, res) => {
   res.header('Access-Control-Allow-Origin', '*');
