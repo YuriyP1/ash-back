@@ -3,6 +3,7 @@ const path = require('path');
 const userRouter = require('./routes/user.routes')
 const bodyParser = require('body-parser');
 const TelegramApi = require('node-telegram-bot-api');
+const cors = require('cors');
 const token ='6077774598:AAEJJaRdxoFdvp_A_RIn7CrOeS9nIqj1Zmw'
 
 const bot = new TelegramApi(token, {polling: true})
@@ -18,8 +19,11 @@ const YURA = 1535962876
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(cors({
+  origin: '*'
+}));
 
-const PORT = 3000;
+const PORT = 3015;
 
 let count = 0
 
@@ -78,7 +82,7 @@ ${result}
 
 
 // app.use('/api', router);
-app.use(express.static(path.join(__dirname, '/../../client/ASH/build')));
+app.use(express.static(path.join(__dirname, '/../../frontend/ASH/build')));
 // app.use(express.static(`${__dirname}/../../client/ASH/build`));
 
 app.get('*', (_, res) => {
@@ -91,7 +95,7 @@ app.get('*', (_, res) => {
 
   res.contentType('text/html; charset=utf-8');
 
-  res.sendFile(path.join(`${__dirname}/../../client/ASH/build/index.html`));
+  res.sendFile(path.join(`${__dirname}/../../frontend/ASH/build/index.html`));
 });
 
 
